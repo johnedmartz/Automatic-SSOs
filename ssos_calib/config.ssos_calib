@@ -1,0 +1,19 @@
+# Default configuration file
+
+#------
+# Filabres parameters
+
+INSTRUMENT		lsss				# Instrument used for the observations
+FLIPSTAT		True				# True in case there is a meridian flip.
+RECALIB			True				# True to attempt an individual recalibration of outliers (bad astrometric solution).
+
+#------
+# Sigma clipping parameters
+
+MAX_MAG			16				# Maximun magnitude for the linear region.
+MIN_MAG			12				# Minimum magnitude for the linear region.
+MAX_MAGERR		0.1				# Magnitudes with a higher error will not be used for the linear regression.
+SIGM			2.5				# Sigma used for the sigma clipping.
+
+#------
+R2			0.98				# R2 threshold.
