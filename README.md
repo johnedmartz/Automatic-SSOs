@@ -28,8 +28,8 @@ These are the main steps that the pipeline will follow in a normal execution:
 ## Requirements: (Python 3.8)
 ###	Main software:
 + [Filabres](https://filabres.readthedocs.io/en/latest/index.html)
-+ SSOs (https://ssos.readthedocs.io/en/latest/)
-+ GLS (https://github.com/mzechmeister/GLS)
++ [SSOs](https://ssos.readthedocs.io/en/latest/)
++ [GLS](https://github.com/mzechmeister/GLS)
 
 ###	Based on:
 + SExtractor 2.25.0
