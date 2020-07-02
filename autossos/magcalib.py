@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import shutil
-import ssos_calib.GLS as GLS
+import autossos.GLS as GLS
 
 from tqdm import tqdm
 from astropy import units as u
