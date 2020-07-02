@@ -132,18 +132,16 @@ A folder named ssos-master will be created with the setup files.
 (ssosauto) $ python setup.py install
 (ssosauto) $ cd ..
 ```
-Qué pasa con el utils.py aquí? 
-Borré sin querer un trozo, de todas formas ahora que lo he subido a github pondré major esa parte.
 
 ## Step-by-step workflow:
 
-1.	Create a main directory and go into it:
+#### 1.	Create a main directory and go into it:
 ```bash
 (ssosauto) $ mkdir test_20190411
 (ssosauto) $ cd test_20190411
 ```
 
-2.	Generate the default configuration files and folders in the main directory:
+#### 2.	Generate the default configuration files and folders in the main directory:
 ```bash
 (ssosauto) $ ssos_calib -d
 ```
@@ -188,7 +186,7 @@ SIGM	Sigma value used for sigma clipping.
 R2	Catalogues with R2 lower than this threshold will not be used.
 
 
-3.	 Execution:
+#### 3. Execution:
 In the terminal write
 ```bash
 (ssosauto) $ ssos_calib path/to/directory
@@ -197,7 +195,7 @@ Where the directory is the path to the main directory we have created before. Or
 ```bash
 (ssosauto) $ ssos_calib .
 ```
-4.	User input through the pipeline execution:
+#### 4.	User input through the pipeline execution:
 
 -	The pipeline has a conflict with files with duplicated names, so if the pipeline finds any images with the same name inside the nights directories it will warn you and give you the option in terminal to exit the pipeline and change them or automatically append the corresponding night directory to their names.
 
