@@ -212,10 +212,15 @@ The list of images which cannot be solved or are outliers will be saved in files
 The main output will be inside SSOS folder:
 
 ./SSOS/Stats.dat	These are the values of the statistics of each image with a column identifying if they are outliers
+
 ./SSOS/checkplots/	This folder contains SSOs plots, a plot of the statistics, R2 evolution over the night and the light curve of each asteroid.
+
 ./SSOS/cats/match_[…].cat	These are the full catalogues matched with the reference sources.
+
 ./SSOS/cats/ssos_[…].csv	SSOs output.
+
 ./SSOS/cats/calib_[…].csv	SSOs output including a column with the calibrated magnitudes.
+
 ./SSOS/cats/validcalib_[…].csv	SSOs output with calibrated magnitudes after removing bad values (given by bad photometry or R2 less than threshold).
 
 ## Optional executions:
