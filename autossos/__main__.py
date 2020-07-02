@@ -29,7 +29,7 @@ if sys.argv[1] in ['-d', '--default']:
     os.makedirs(os.path.join(os.getcwd(), 'SSOS'), exist_ok=True)
     
     
-    config_files = ['config.ssos_calib', 'config.sex', 'config.scamp', 'default.param']
+    config_files = ['config.autossos', 'config.sex', 'config.scamp', 'default.param']
     path_to_module = os.path.dirname(__file__)
     for config in config_files:
         shutil.copy(os.path.join(path_to_module, config), os.path.join(os.getcwd(), config))
@@ -49,25 +49,25 @@ if sys.argv[1] in ['-d', '--default']:
 
 
 if sys.argv[1] in ['-plot_sc', '--plot_sigmaclipping']:
-    from ssos_calib.magcalib import sigmclip_plot
+    from autossos.magcalib import sigmclip_plot
     sigmclip_plot(int(sys.argv[2])-1, int(sys.argv[3]), float(sys.argv[4]), float(sys.argv[5]), float(sys.argv[6]), float(sys.argv[7]))
     sys.exit()
 
 
 if sys.argv[1] in ['-check', '--check_calibrations']:
-    from ssos_calib.filab import check
+    from autossos.filab import check
     check()
     sys.exit()
 
 
 if sys.argv[1] in ['-period', '--periodogram']:
-    from ssos_calib.magcalib import getperiod
+    from autossos.magcalib import getperiod
     getperiod(sys.argv[2], sys.argv[3], sys.argv[4])
     sys.exit()
 
 
 if sys.argv[1] in ['-re_sc', '--redo_sigmaclipping']:
-    from ssos_calib import magcalib
+    from autossos import magcalib
     magcalib.sgmclip(float(sys.argv[2]), float(sys.argv[3]), float(sys.argv[4]), float(sys.argv[5]))
     magcalib.mag_calib()
     magcalib.ast_calib(sys.argv[6])
@@ -76,7 +76,7 @@ if sys.argv[1] in ['-re_sc', '--redo_sigmaclipping']:
 
 
 settings = {}
-with open(os.path.join(os.getcwd(), 'config.ssos_calib'), 'r') as set_up:
+with open(os.path.join(os.getcwd(), 'config.autossos'), 'r') as set_up:
     for line in set_up:
         if not line[0].isalpha():
             continue
@@ -86,7 +86,7 @@ with open(os.path.join(os.getcwd(), 'config.ssos_calib'), 'r') as set_up:
     locals().update(settings)
 
 if sys.argv[1] in ['-SSOS']:
-    from ssos_calib import magcalib
+    from autossos import magcalib
     magcalib.imgstats()
     magcalib.exec_ssos()
     magcalib.matchcats()
@@ -96,8 +96,8 @@ if sys.argv[1] in ['-SSOS']:
     sys.exit()
 
 
-from ssos_calib import filab
-from ssos_calib import magcalib
+from autossos import filab
+from autossos import magcalib
 
 main_dir = os.path.abspath(sys.argv[1]) 
 os.chdir(main_dir)
