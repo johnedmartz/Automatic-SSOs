@@ -52,6 +52,7 @@ $ /path/to/conda/bin/conda info
 In this guide we will write the commands without the full path, for simplicity.
 
 2.	 Create a conda environment:
+```bash
 $ conda create --name ssosauto python=3 \
 astropy \
 ipython \
@@ -62,7 +63,7 @@ python-dateutil \
 PyYaml \
 scipy \
 setuptools
-
+```
 and answer "y".
 
 3.	 Activate environment:
