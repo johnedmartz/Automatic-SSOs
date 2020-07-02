@@ -183,7 +183,7 @@ MIN_MAG	Lowest magnitude of the linear region.
 MAX_MAGERR	Magnitudes with higher error will be ignored.
 SIGM	Sigma value used for sigma clipping.
 
-R2	Catalogues with R2 lower than this threshold will not be used.
+Catalogues with R2 lower than this threshold will not be used.
 
 
 #### 3. Execution:
