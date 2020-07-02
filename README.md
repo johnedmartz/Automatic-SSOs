@@ -12,7 +12,7 @@ These are the main steps that the pipeline will follow in a normal execution:
 -	With Filabres, images from each night will be reduced with their corresponding masterflat and masterbias, considering if there was a meridian flip at some point (characteristic of LSSS survey). This will also write a WCS header on those images using Astrometry in a first place and SCAMP afterwards. For more details on the Filabres performance, we refer the user to the specific documentation.
 -	If Astrometry can’t astrometrically solve solve an image, it won’t be used in the following steps.
 -	For images with astrometric solution, Filabres saves a detection catalogue of extrated sources with their corresponding counterparts in the reference catalogue (Gaia DR2). For each catalogue, a boxplot with median separations between the coordinates of extracted and reference sources will be used to detect outliers among the calibrated images. These outliers would be images with median separations between extracted and reference sources above Q3 (third quartile) + 1.5 IQR (interquartile range). 
--	The user can decide whether automatically recalibrate these outliers in the configuration file (config.ssos_calib).
+-	The user can decide whether automatically recalibrate these outliers in the configuration file (config.autossos).
 -	The “good” images (astrometrically calibrated and within the accepted threshold) will be copied to an SSOS folder where the main software (ssos) to detect objects will be executed.
 -	A check for the “FILTER” keyword in the header will be done. If this keyword doesn’t exist it will be set to “NONE”, as the ssos pipeline requires a “FILTER” keyword.
 -	A file with statistics (mean, median, standard deviation and MAD) of the background of these images will be created. This will help to identify images with bad photometry using another boxplot. Outliers will be removed following the same criteria as before (Q3 + 1.5 IQR).
@@ -125,7 +125,7 @@ A folder named ssos-master will be created with the setup files.
 (ssosauto) $ python setup.py install
 (ssosauto) $ cd ..
 ```
-#### 7.	 Installing ssos_calib:
+#### 7.	 Installing autossos:
 ```bash
 (ssosauto) $ cd setup_pipeline
 (ssosauto) $ python setup.py build
@@ -143,7 +143,7 @@ A folder named ssos-master will be created with the setup files.
 
 #### 2.	Generate the default configuration files and folders in the main directory:
 ```bash
-(ssosauto) $ ssos_calib -d
+(ssosauto) $ autossos -d
 ```
 Four configuration files and two folders will be created:
 ```bash
@@ -151,7 +151,7 @@ SSOS/
 multiple_nights/
 config.scamp
 config.sex
-config.ssos_calib
+config.autossos
 default.param
 ```
 
@@ -171,7 +171,7 @@ You can edit its configuration files. By default, the scamp execution used by SS
  
 -	default.param, config.scamp and config.sex are the configuration files used by Filabres.
 
--	config.ssos_calib is the main configuration file used by this pipeline.
+-	config.autossos is the main configuration file used by this pipeline.
 
 + Filabres parameters
 INSTRUMENT:		Name of the instrument used for the observations.
@@ -189,17 +189,17 @@ Catalogues with R2 lower than this threshold will not be used.
 #### 3. Execution:
 In the terminal write
 ```bash
-(ssosauto) $ ssos_calib path/to/directory
+(ssosauto) $ autossos path/to/directory
 ```
 Where the directory is the path to the main directory we have created before. Or, if in the terminal we are in this directory
 ```bash
-(ssosauto) $ ssos_calib .
+(ssosauto) $ autossos .
 ```
 #### 4.	User input through the pipeline execution:
 
 -	The pipeline has a conflict with files with duplicated names, so if the pipeline finds any images with the same name inside the nights directories it will warn you and give you the option in terminal to exit the pipeline and change them or automatically append the corresponding night directory to their names.
 
--	If RECALIB is set to True in the configuration file (config.ssos_calib), it will attempt an individual recalibration of the outliers. If there are still outliers it will ask you to choose between use the outliers in the next steps, attempt another recalibration (you can edit Filabres configuration files while the pipeline is paused), continue the pipeline ignoring the outliers or exit.
+-	If RECALIB is set to True in the configuration file (config.autossos), it will attempt an individual recalibration of the outliers. If there are still outliers it will ask you to choose between use the outliers in the next steps, attempt another recalibration (you can edit Filabres configuration files while the pipeline is paused), continue the pipeline ignoring the outliers or exit.
 
 -	After these first steps, the pipeline will ask you if you want to enable/disable the SCAMP astrometric solution (by default is disabled) or continue with your current ssos parameters.
 
@@ -226,46 +226,46 @@ The main output will be inside SSOS folder:
 ## Optional executions:
 -	If the Filabres has already been executed you can run the pipeline normally, Filabres will skip automatically images already calibrated. But if you want to skip this step anyway you can use:
 ```bash
-ssos_calib path/to/directory -skip_filabres
+autossos path/to/directory -skip_filabres
 ```
 -	If you want to skip the recalibration:
 ```bash
-ssos_calib path/to/directory -skip_recalibration
+autossos path/to/directory -skip_recalibration
 ```
 Using both arguments at the same times also works.
 
 -	If you want to check again the calibrations, you can use:
 ```bash
-ssos_calib -check
-ssos_calib -–check_calibrations
+autossos -check
+autossos -–check_calibrations
 ```
 -	In case you want to run the pipeline from the ssos execution until the end use this from the main directory:
 ```bash
-ssos_calib -SSOS
+autossos -SSOS
 ```
 -	If you want to generate a plot of a single linear regression with sigma clipping:
 ```bash
-ssos_calib -plot_sc [number_full] [catalogue] [sigma] [min_mag] [max_mag] [max_magerr]
-ssos_calib –-plot_sigmaclipping [number_full] [catalogue] [sigma] [min_mag] [max_mag] [max_magerr]
+autossos -plot_sc [number_full] [catalogue] [sigma] [min_mag] [max_mag] [max_magerr]
+autossos –-plot_sigmaclipping [number_full] [catalogue] [sigma] [min_mag] [max_mag] [max_magerr]
 ```
 For example, using the catalogue 50 from the full_2.cat, with 2.5 sigma, lower magnitude 12, higher magnitude 17 and maximum error 0.01:
 ```bash
-ssos_calib -plot_sc 2 50 2.5 12 17 0.01
+autossos -plot_sc 2 50 2.5 12 17 0.01
 ```
 -	If you want to get the output again with different values for sigma clipping:
 ```bash
-ssos_calib -re_sc [sigma] [min_mag] [max_mag] [max_magerr] [R2]
-ssos_calib --redo_sigmaclipping [sigma] [min_mag] [max_mag] [max_magerr] [R2]
+autossos -re_sc [sigma] [min_mag] [max_mag] [max_magerr] [R2]
+autossos --redo_sigmaclipping [sigma] [min_mag] [max_mag] [max_magerr] [R2]
 ```
 
 -	To obtain periods you can use:
 ```bash
-ssos_calib -period [file] [name] [iterations]
+autossos -period [file] [name] [iterations]
 ```
 where file is the output file named “validcalib_[…].csv” and name is the name provided by SkyBoT or the one assigned in the column SKYBOT_NAME.
 
 For example, to find periods of the asteroid Polyxo using the output “validcalib_[…].csv” and with 2 iterations:
 ```bash
-ssos_calib -period ./SSOS/cats/validcalib_[…].csv Polyxo 2
+autossos -period ./SSOS/cats/validcalib_[…].csv Polyxo 2
 ```
 This will create a file, Polyxo_period.txt in this case, in the directory where this command was executed. This file contains the best period of each iteration and its false alarm probability.
