@@ -26,17 +26,17 @@ These are the main steps that the pipeline will follow in a normal execution:
 -	If desired, the user can call a function (explained at the end of this document) to extract rotation periods using GLS software.
 
 ## Requirements: (Python 3.8)
--	Main software:
+###	Main software:
 + Filabres (https://filabres.readthedocs.io/en/latest/index.html)
 + SSOs (https://ssos.readthedocs.io/en/latest/)
 + GLS (https://github.com/mzechmeister/GLS)
 
--	Based on:
+###	Based on:
 + SExtractor 2.25.0
 + SCAMP 2.7.8
 + SWarp 2.38.1
 
--	Aditional Python packages:
+###	Aditional Python packages:
 + sbpy
 + astroML
 + photutils
