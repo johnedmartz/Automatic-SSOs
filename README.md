@@ -67,7 +67,7 @@ setuptools
 ```
 and answer "y".
 
-3.	 Activate environment:
+#### 3. Activate environment:
 ```bash
 $ conda activate ssosauto
 ```
@@ -75,7 +75,7 @@ which yields a different system prompt to the user:
 ```bash
 (ssosauto) $
 ```
-3.	Installing filabres:
+#### 4. Installing filabres:
 ```bash
 (ssosauto) $ git clone https://github.com/nicocardiel/filabres.git
 ```
@@ -95,7 +95,7 @@ If you have filabres already installed in your system, but want to update the co
 (ssosauto) $ python setup.py install
 (ssosauto) $ cd ..
 ```
-4.	Installing additional packages:
+#### 5. Installing additional packages:
 ```bash
 (ssosauto) $ conda install -c conda-forge pyvo
 (ssosauto) $ conda install -c conda-forge photutils
@@ -109,7 +109,7 @@ If you have filabres already installed in your system, but want to update the co
 (ssosauto) $ pip install sbpy
 ```
 
-5.	 Installing SSOs:
+#### 6.	Installing SSOs:
 ```bash
 (ssosauto) $ git clone https://github.com/maxmahlke/ssos.git
 ```
@@ -125,7 +125,7 @@ A folder named ssos-master will be created with the setup files.
 (ssosauto) $ python setup.py install
 (ssosauto) $ cd ..
 ```
-6.	 Installing ssos_calib:
+#### 7.	 Installing ssos_calib:
 ```bash
 (ssosauto) $ cd setup_pipeline
 (ssosauto) $ python setup.py build
