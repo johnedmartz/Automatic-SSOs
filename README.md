@@ -43,7 +43,7 @@ These are the main steps that the pipeline will follow in a normal execution:
 
 ## Installation:
 First part is like the Filabres installation.
-1.	 Conda installation:
+1. Conda installation:
 Visit the Miniconda webpage and download the installer corresponding to your operative system.
 If you have updated the $PATH system variable during the miniconda or conda installation, you can call conda commands directly in the shell, like this:
 $ conda info	
