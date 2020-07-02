@@ -1,14 +1,13 @@
 # Automatic-SSOs
 Automatic data calibration of Solar System Objects pipeline using the ssos, Filabres and GLS
 
-Automatic calibration of astronomical images to detect Solar System Objects.
 
-Objectives:
+## Objectives:
 The main purpose of this pipeline is to process a set of raw images to find and characterize candidates to Solar System Objects (both known and unknown). This includes the image reduction (bias subtraction and flat-field correction), astrometric calibration using Gaia DR2 as a reference catalogue, and photometric calibration, also using Gaia DR2 photometry. The pipeline is implemented to automatically detect bad astrometry and photometry (as defined below). Finally, the rotation period of the asteroid can be obtained from its cleaned light curve.
 
 The pipeline uses for the image preparation (reduction and astrometric calibration) the Filabres pipeline and for the SSOs identification, the ssos pipeline
 
-Pipeline:
+## Pipeline:
 These are the main steps that the pipeline will follow in a normal execution:
 -	With Filabres, images from each night will be reduced with their corresponding masterflat and masterbias, considering if there was a meridian flip at some point (characteristic of LSSS survey). This will also write a WCS header on those images using Astrometry in a first place and SCAMP afterwards. For more details on the Filabres performance, we refer the user to the specific documentation.
 -	If Astrometry can’t astrometrically solve solve an image, it won’t be used in the following steps.
@@ -25,7 +24,8 @@ These are the main steps that the pipeline will follow in a normal execution:
 -	Calibrated magnitudes given by a regression with R2 lower than certain threshold will be removed.
 -	Finally, a file named validcalib_ssos_xxxxxx.csv will be created with the positions and calibrated magnitudes of the SSOs candidates, together with the SkyBoTs recovered information, when available.
 -	If desired, the user can call a function (explained at the end of this document) to extract rotation periods using GLS software.
-Requirements: (Python 3.8)
+
+## Requirements: (Python 3.8)
 -	Main software:
 + Filabres (https://filabres.readthedocs.io/en/latest/index.html)
 + SSOs (https://ssos.readthedocs.io/en/latest/)
