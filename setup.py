@@ -12,7 +12,7 @@ setup(
       description='Automatic data calibration of SSOS pipeline using Fialbres and GLS',
       packages=find_packages(),
       package_data={'':['config.ssos_calib', 'config.scamp', 'config.sex', 'default.param']},
-      license='BSD',
+      license='GPL-3.0',
       keywords='filabres ssos gls',
       long_description=read('README.md'),
       entry_points={'console_scripts': ['ssos_calib = ssos_calib.__main__:main']},
