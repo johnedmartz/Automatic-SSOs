@@ -41,7 +41,7 @@ These are the main steps that the pipeline will follow in a normal execution:
 + astroML
 + photutils
 
-Installation:
+## Installation:
 First part is like the Filabres installation.
 1.	 Conda installation:
 Visit the Miniconda webpage and download the installer corresponding to your operative system.
@@ -116,7 +116,7 @@ A folder named ssos-master will be created with the setup files.
 Qué pasa con el utils.py aquí? 
 Borré sin querer un trozo, de todas formas ahora que lo he subido a github pondré major esa parte.
 
-Step-by-step workflow:
+## Step-by-step workflow:
 
 1.	Create a main directory and go into it:
 (ssosauto) $ mkdir test_20190411
@@ -153,11 +153,11 @@ You can edit its configuration files. By default, the scamp execution used by SS
 
 -	config.ssos_calib is the main configuration file used by this pipeline.
 
-# Filabres parameters
++ Filabres parameters
 INSTRUMENT:		Name of the instrument used for the observations.
 FLIPSTAT:			True/False if there is a meridian flip.
 RECALIB:	True/False to attempt automatically an individual recalibration of outliers.
-# Sigma clipping parameters
++ Sigma clipping parameters
 MAX_MAG	Highest magnitude of the linear region.
 MIN_MAG	Lowest magnitude of the linear region.
 MAX_MAGERR	Magnitudes with higher error will be ignored.
@@ -184,7 +184,7 @@ Where the directory is the path to the main directory we have created before. Or
 -	After ssos execution you will need to inspect the candidates.
 
 
-Output:
+## Output:
 Filabres will return the calibrated images inside the science-imaging folder(for the structure of the output of Filabres, we refer the used to the proper documentation).
 The list of images which cannot be solved or are outliers will be saved in files inside each night folder (list_ouliers.csv and list_notsolved.csv).
 The main output will be inside SSOS folder:
@@ -196,7 +196,7 @@ The main output will be inside SSOS folder:
 ./SSOS/cats/calib_[…].csv	SSOs output including a column with the calibrated magnitudes.
 ./SSOS/cats/validcalib_[…].csv	SSOs output with calibrated magnitudes after removing bad values (given by bad photometry or R2 less than threshold).
 
-Optional executions:
+## Optional executions:
 -	If the Filabres has already been executed you can run the pipeline normally, Filabres will skip automatically images already calibrated. But if you want to skip this step anyway you can use:
 ssos_calib path/to/directory -skip_filabres
 
