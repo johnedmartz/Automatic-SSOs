@@ -67,25 +67,35 @@ setuptools
 and answer "y".
 
 3.	 Activate environment:
+```bash
 $ conda activate ssosauto
+```
 which yields a different system prompt to the user:
+```bash
 (ssosauto) $
-
+```
 3.	Installing filabres:
+```bash
 (ssosauto) $ git clone https://github.com/nicocardiel/filabres.git
+```
+
 A folder named filabres will be created with the setup files.
+```bash
 (ssosauto) $ cd filabres
 (ssosauto) $ python setup.py build
 (ssosauto) $ python setup.py install
+```
 
 If you have filabres already installed in your system, but want to update the code with the latest version, you need to move to the same directory where you previously cloned the repository, pull the latest changes of the code, and reinstall it:
+```bash
 (ssosauto) $ cd filabres
 (ssosauto) $ git pull
 (ssosauto) $ python setup.py build
 (ssosauto) $ python setup.py install
 (ssosauto) $ cd ..
-
+```
 4.	Installing additional packages:
+```bash
 (ssosauto) $ conda install -c conda-forge pyvo
 (ssosauto) $ conda install -c conda-forge photutils
 (ssosauto) $ conda install -c conda-forge astrometry
@@ -96,52 +106,62 @@ If you have filabres already installed in your system, but want to update the co
 (ssosauto) $ conda install -c conda-forge tqdm 
 (ssosauto) $ conda install -c conda-forge statsmodels
 (ssosauto) $ pip install sbpy
+```
 
 5.	 Installing SSOs:
+```bash
 (ssosauto) $ git clone https://github.com/maxmahlke/ssos.git
+```
 A folder named ssos-master will be created with the setup files.
 ** Replace utils.py inside ssos with with the one included in this pipeline.
+```bash
 (ssosauto) $ mv utils.py ssos-master
+```
 ** Proceed with SSOS installation.
+```bash
 (ssosauto) $ cd ssos-master
 (ssosauto) $ python setup.py build
 (ssosauto) $ python setup.py install
 (ssosauto) $ cd ..
-
+```
 6.	 Installing ssos_calib:
+```bash
 (ssosauto) $ cd setup_pipeline
 (ssosauto) $ python setup.py build
 (ssosauto) $ python setup.py install
 (ssosauto) $ cd ..
-
+```
 Qué pasa con el utils.py aquí? 
 Borré sin querer un trozo, de todas formas ahora que lo he subido a github pondré major esa parte.
 
 ## Step-by-step workflow:
 
 1.	Create a main directory and go into it:
+```bash
 (ssosauto) $ mkdir test_20190411
 (ssosauto) $ cd test_20190411
-
+```
 
 2.	Generate the default configuration files and folders in the main directory:
-
+```bash
 (ssosauto) $ ssos_calib -d
-
+```
 Four configuration files and two folders will be created:
+```bash
 SSOS/
 multiple_nights/
 config.scamp
 config.sex
 config.ssos_calib
 default.param
-
+```
 
 -	Multiple_nights/ contains an example of the required structure:
+```bash
 Multiple_nights/night1/images
 Multiple_nights/night2/images
 ...
-
+```
 masterbias and masterflat fits must be included in each nightx/ folder.
 This folder and all included can be named differently. There should be only one folder with these characteristics to avoid conflicts between folders.
 The pipeline can process all the images at the same time, but it’s recommended to run each night separately or, if they are consecutive nights, adjust the parameter CROSSMATCH_SKYBOT as explained in the SSOS webpage.
@@ -169,11 +189,13 @@ R2	Catalogues with R2 lower than this threshold will not be used.
 
 3.	 Execution:
 In the terminal write
+```bash
 (ssosauto) $ ssos_calib path/to/directory
-
+```
 Where the directory is the path to the main directory we have created before. Or, if in the terminal we are in this directory
+```bash
 (ssosauto) $ ssos_calib .
-
+```
 4.	User input through the pipeline execution:
 
 -	The pipeline has a conflict with files with duplicated names, so if the pipeline finds any images with the same name inside the nights directories it will warn you and give you the option in terminal to exit the pipeline and change them or automatically append the corresponding night directory to their names.
@@ -199,39 +221,47 @@ The main output will be inside SSOS folder:
 
 ## Optional executions:
 -	If the Filabres has already been executed you can run the pipeline normally, Filabres will skip automatically images already calibrated. But if you want to skip this step anyway you can use:
+```bash
 ssos_calib path/to/directory -skip_filabres
-
+```
 -	If you want to skip the recalibration:
+```bash
 ssos_calib path/to/directory -skip_recalibration
+```
 Using both arguments at the same times also works.
 
 -	If you want to check again the calibrations, you can use:
+```bash
 ssos_calib -check
 ssos_calib -–check_calibrations
-
+```
 -	In case you want to run the pipeline from the ssos execution until the end use this from the main directory:
+```bash
 ssos_calib -SSOS
-
+```
 -	If you want to generate a plot of a single linear regression with sigma clipping:
+```bash
 ssos_calib -plot_sc [number_full] [catalogue] [sigma] [min_mag] [max_mag] [max_magerr]
-
 ssos_calib –-plot_sigmaclipping [number_full] [catalogue] [sigma] [min_mag] [max_mag] [max_magerr]
+```
 For example, using the catalogue 50 from the full_2.cat, with 2.5 sigma, lower magnitude 12, higher magnitude 17 and maximum error 0.01:
+```bash
 ssos_calib -plot_sc 2 50 2.5 12 17 0.01
-
+```
 -	If you want to get the output again with different values for sigma clipping:
+```bash
 ssos_calib -re_sc [sigma] [min_mag] [max_mag] [max_magerr] [R2]
-
 ssos_calib --redo_sigmaclipping [sigma] [min_mag] [max_mag] [max_magerr] [R2]
-
+```
 
 -	To obtain periods you can use:
+```bash
 ssos_calib -period [file] [name] [iterations]
-
+```
 where file is the output file named “validcalib_[…].csv” and name is the name provided by SkyBoT or the one assigned in the column SKYBOT_NAME.
 
 For example, to find periods of the asteroid Polyxo using the output “validcalib_[…].csv” and with 2 iterations:
-
+```bash
 ssos_calib -period ./SSOS/cats/validcalib_[…].csv Polyxo 2
-
+```
 This will create a file, Polyxo_period.txt in this case, in the directory where this command was executed. This file contains the best period of each iteration and its false alarm probability.
