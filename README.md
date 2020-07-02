@@ -109,25 +109,35 @@ If you have filabres already installed in your system, but want to update the co
 (ssosauto) $ pip install sbpy
 ```
 
-#### 6.	Installing SSOs:
+#### 6. Download ssos and Automatic-SSOs
+**ssos:
 ```bash
 (ssosauto) $ git clone https://github.com/maxmahlke/ssos.git
 ```
-A folder named ssos-master will be created with the setup files.
+A folder named ssos will be created with the setup files.
+
+**Automatic-SSOs:
+```bash
+(ssosauto) $ git clone https://github.com/johnedmartz/Automatic-SSOs.git
+```
+A folder named Automatic-SSOs will be created with the setup files.
+
+#### 6.	Installing SSOs:
+
 ** Replace utils.py inside ssos with with the one included in this pipeline.
 ```bash
-(ssosauto) $ mv utils.py ssos-master
+(ssosauto) $ cp Automatic-SSOs/ssos/utils.py ssos/ssos/
 ```
 ** Proceed with SSOS installation.
 ```bash
-(ssosauto) $ cd ssos-master
+(ssosauto) $ cd ssos
 (ssosauto) $ python setup.py build
 (ssosauto) $ python setup.py install
 (ssosauto) $ cd ..
 ```
 #### 7.	 Installing autossos:
 ```bash
-(ssosauto) $ cd setup_pipeline
+(ssosauto) $ cd Automatic-SSOs 
 (ssosauto) $ python setup.py build
 (ssosauto) $ python setup.py install
 (ssosauto) $ cd ..
