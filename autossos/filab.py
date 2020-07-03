@@ -243,7 +243,7 @@ def check():
     return [outliers, notsolved, medianseps]
 
 
-def recalib(outliers,RECALIB):
+def recalib(outliers, medianseps, RECALIB):
 
     ''' Recalibrate outliers if RECALIB = True. Runs Filabres individualy for each outlier '''    
 
