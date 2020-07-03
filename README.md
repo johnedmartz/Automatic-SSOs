@@ -16,10 +16,10 @@ These are the main steps that the pipeline will follow in a normal execution:
 -	The “good” images (astrometrically calibrated and within the accepted threshold) will be copied to an SSOS folder where the main software (ssos) to detect objects will be executed.
 -	A check for the “FILTER” keyword in the header will be done. If this keyword doesn’t exist it will be set to “NONE”, as the ssos pipeline requires a “FILTER” keyword.
 -	A file with statistics (mean, median, standard deviation and MAD) of the background of these images will be created. This will help to identify images with bad photometry using another boxplot. Outliers will be removed following the same criteria as before (Q3 + 1.5 IQR).
--	The ssos pipeline will be executed on the SSOS folder, containing all astrometrically calibrated images. The key in the identification of SSOs with this pipeline lies on the identification of a linear motion of an object over the sky. It performs a crossmatch with the SkyBoT (Sky Body Tracker) VO service to identify known SSOs and differenciate the unknown (new candidates) objects.
+-	The ssos pipeline will be executed on the SSOS folder, containing all astrometrically calibrated images. The key in the identification of SSOs with this pipeline lies on the identification of a linear motion of an object over the sky. It performs a crossmatch with the SkyBoT (Sky Body Tracker) VO service to identify known SSOs and differentiate the unknown (new candidates) objects.
 -	A visual inspection of candidates is needed. The ones marked as ASTEROID but without SkyBot name will be named AST_X and the ones marked as UFOs will be named as UNK_X.
 -	After ssos execution, each full catalogue (this is, detection catalogues) will be matched with its corresponding reference sources from Gaia DR2 to carry out the photometric calibration.
--	A linear regression between instrumental and reference (Gmag) magnitudes with sigma clipping will be performed on these matched catalogues.
+-	A linear regression between instrumental and reference (Gmag) magnitudes with sigma clipping will be performed on these matched catalogues in order to perform the photometric calibration.
 -	The parameters of these fits will be used to photometrically calibrate the SSOs candidates.
 -	Calibrated magnitudes given by a regression with R2 lower than certain threshold will be removed.
 -	Finally, a file named validcalib_ssos_xxxxxx.csv will be created with the positions and calibrated magnitudes of the SSOs candidates, together with the SkyBoTs recovered information, when available.
@@ -54,7 +54,7 @@ In this guide we will write the commands without the full path, for simplicity.
 
 #### 2. Create a conda environment:
 ```bash
-$ conda create --name ssosauto python=3 \
+$ conda create --name autossos python=3 \
 astropy \
 ipython \
 matplotlib \
@@ -69,56 +69,56 @@ and answer "y".
 
 #### 3. Activate environment:
 ```bash
-$ conda activate ssosauto
+$ conda activate autossos
 ```
 which yields a different system prompt to the user:
 ```bash
-(ssosauto) $
+(autossos) $
 ```
 #### 4. Installing filabres:
 ```bash
-(ssosauto) $ git clone https://github.com/nicocardiel/filabres.git
+(autossos) $ git clone https://github.com/nicocardiel/filabres.git
 ```
 
 A folder named filabres will be created with the setup files.
 ```bash
-(ssosauto) $ cd filabres
-(ssosauto) $ python setup.py build
-(ssosauto) $ python setup.py install
+(autossos) $ cd filabres
+(autossos) $ python setup.py build
+(autossos) $ python setup.py install
 ```
 
 If you have filabres already installed in your system, but want to update the code with the latest version, you need to move to the same directory where you previously cloned the repository, pull the latest changes of the code, and reinstall it:
 ```bash
-(ssosauto) $ cd filabres
-(ssosauto) $ git pull
-(ssosauto) $ python setup.py build
-(ssosauto) $ python setup.py install
-(ssosauto) $ cd ..
+(autossos) $ cd filabres
+(autossos) $ git pull
+(autossos) $ python setup.py build
+(autossos) $ python setup.py install
+(autossos) $ cd ..
 ```
 #### 5. Installing additional packages:
 ```bash
-(ssosauto) $ conda install -c conda-forge pyvo
-(ssosauto) $ conda install -c conda-forge photutils
-(ssosauto) $ conda install -c conda-forge astrometry
-(ssosauto) $ conda install -c conda-forge astromatic-source-extractor
-(ssosauto) $ conda install -c conda-forge astromatic-scamp
-(ssosauto) $ conda install -c conda-forge astromatic-swarp 
-(ssosauto) $ conda install -c conda-forge astroml 
-(ssosauto) $ conda install -c conda-forge tqdm 
-(ssosauto) $ conda install -c conda-forge statsmodels
-(ssosauto) $ pip install sbpy
+(autossos) $ conda install -c conda-forge pyvo
+(autossos) $ conda install -c conda-forge photutils
+(autossos) $ conda install -c conda-forge astrometry
+(autossos) $ conda install -c conda-forge astromatic-source-extractor
+(autossos) $ conda install -c conda-forge astromatic-scamp
+(autossos) $ conda install -c conda-forge astromatic-swarp 
+(autossos) $ conda install -c conda-forge astroml 
+(autossos) $ conda install -c conda-forge tqdm 
+(autossos) $ conda install -c conda-forge statsmodels
+(autossos) $ pip install sbpy
 ```
 
 #### 6. Download ssos and Automatic-SSOs:
 * ssos:
 ```bash
-(ssosauto) $ git clone https://github.com/maxmahlke/ssos.git
+(autossos) $ git clone https://github.com/maxmahlke/ssos.git
 ```
 A folder named ssos will be created with the setup files.
 
 * Automatic-SSOs:
 ```bash
-(ssosauto) $ git clone https://github.com/johnedmartz/Automatic-SSOs.git
+(autossos) $ git clone https://github.com/johnedmartz/Automatic-SSOs.git
 ```
 A folder named Automatic-SSOs will be created with the setup files.
 
@@ -126,34 +126,34 @@ A folder named Automatic-SSOs will be created with the setup files.
 
 * Replace utils.py inside ssos with with the one included in this pipeline.
 ```bash
-(ssosauto) $ cp Automatic-SSOs/ssos/utils.py ssos/ssos/
+(autossos) $ cp Automatic-SSOs/ssos/utils.py ssos/ssos/
 ```
 * Proceed with SSOS installation.
 ```bash
-(ssosauto) $ cd ssos
-(ssosauto) $ python setup.py build
-(ssosauto) $ python setup.py install
-(ssosauto) $ cd ..
+(autossos) $ cd ssos
+(autossos) $ python setup.py build
+(autossos) $ python setup.py install
+(autossos) $ cd ..
 ```
 #### 8.	 Installing autossos:
 ```bash
-(ssosauto) $ cd Automatic-SSOs 
-(ssosauto) $ python setup.py build
-(ssosauto) $ python setup.py install
-(ssosauto) $ cd ..
+(autossos) $ cd Automatic-SSOs 
+(autossos) $ python setup.py build
+(autossos) $ python setup.py install
+(autossos) $ cd ..
 ```
 
 ## Step-by-step workflow:
 
 #### 1.	Create a main directory and go into it:
 ```bash
-(ssosauto) $ mkdir test_20190411
-(ssosauto) $ cd test_20190411
+(autossos) $ mkdir test_20190411
+(autossos) $ cd test_20190411
 ```
 
 #### 2.	Generate the default configuration files and folders in the main directory:
 ```bash
-(ssosauto) $ autossos -d
+(autossos) $ autossos -d
 ```
 Four configuration files and two folders will be created:
 ```bash
@@ -199,11 +199,11 @@ Catalogues with R2 lower than this threshold will not be used.
 #### 3. Execution:
 In the terminal write
 ```bash
-(ssosauto) $ autossos path/to/directory
+(autossos) $ autossos path/to/directory
 ```
 Where the directory is the path to the main directory we have created before. Or, if in the terminal we are in this directory
 ```bash
-(ssosauto) $ autossos .
+(autossos) $ autossos .
 ```
 #### 4.	User input through the pipeline execution:
 
