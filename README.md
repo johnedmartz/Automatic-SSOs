@@ -1,5 +1,5 @@
 # Automatic-SSOs
-Automatic data calibration of Solar System Objects pipeline using the ssos pipeline, Filabres and GLS.
+Automatic data calibration of Solar System Objects using the ssos pipeline, Filabres and GLS.
 
 
 ## Objectives:
