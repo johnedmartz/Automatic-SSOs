@@ -127,7 +127,7 @@ def main():
     skip_rec = any(skip_rec_arg.intersection(input_arguments))
     
     if not skip_rec:
-        outliers, medianseps = filab.recalib(outliers, RECALIB)
+        outliers, medianseps = filab.recalib(outliers, medianseps, RECALIB)
     
     
     
