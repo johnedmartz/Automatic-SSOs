@@ -68,7 +68,7 @@ def imgstats():
     global_indx = []
     for n in nights:
         img_in_night = sorted(os.listdir(os.path.join(raw_dir, n)))
-        Stats_night_indx = [list(Stats['Name']).index(i) for i in list(Stats['Name']) if any(s in i for s in img_in_night)]
+        Stats_night_indx = [list(Stats['Name']).index(i) for i in list(Stats['Name']) if any(os.path.splitext(s)[0] in i for s in img_in_night)]
         
         Stats.loc[Stats_night_indx, 'Night'] = n
         
