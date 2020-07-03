@@ -20,7 +20,7 @@ These are the main steps that the pipeline will follow in a normal execution:
 -	A visual inspection of candidates is needed. The ones marked as ASTEROID but without SkyBot name will be named AST_X and the ones marked as UFOs will be named as UNK_X.
 -	After ssos execution, each full catalogue (this is, detection catalogues) will be matched with its corresponding reference sources from Gaia DR2 to carry out the photometric calibration.
 -	A linear regression between instrumental and reference (Gmag) magnitudes with sigma clipping will be performed on these matched catalogues in order to perform the photometric calibration.
--	The parameters of these fits will be used to photometrically calibrate the SSOs candidates.
+-	The parameters of these fits will be used to convert instrumental magnitudes to physical magnitudes the SSOs candidates.
 -	Calibrated magnitudes given by a regression with R2 lower than certain threshold will be removed.
 -	Finally, a file named validcalib_ssos_xxxxxx.csv will be created with the positions and calibrated magnitudes of the SSOs candidates, together with the SkyBoTs recovered information, when available.
 -	If desired, the user can call a function (explained at the end of this document) to extract rotation periods using GLS software.
@@ -98,16 +98,18 @@ If you have filabres already installed in your system, but want to update the co
 #### 5. Installing additional packages:
 ```bash
 (autossos) $ conda install -c conda-forge pyvo
-(autossos) $ conda install -c conda-forge photutils
 (autossos) $ conda install -c conda-forge astrometry
 (autossos) $ conda install -c conda-forge astromatic-source-extractor
 (autossos) $ conda install -c conda-forge astromatic-scamp
 (autossos) $ conda install -c conda-forge astromatic-swarp 
-(autossos) $ conda install -c conda-forge astroml 
-(autossos) $ conda install -c conda-forge tqdm 
-(autossos) $ conda install -c conda-forge statsmodels
+
 (autossos) $ pip install sbpy
+(autossos) $ pip install photutils
+(autossos) $ pip install astroml
+(autossos) $ pip install tqdm
+(autossos) $ pip install statsmodels
 ```
+Note: These packages can also be installed from the conda repository.
 
 #### 6. Download ssos and Automatic-SSOs:
 * ssos:
@@ -236,46 +238,46 @@ The main output will be inside SSOS folder:
 ## Optional executions:
 -	If the Filabres has already been executed you can run the pipeline normally, Filabres will skip automatically images already calibrated. But if you want to skip this step anyway you can use:
 ```bash
-autossos path/to/directory -skip_filabres
+(autossos) $ autossos path/to/directory -skip_filabres
 ```
 -	If you want to skip the recalibration:
 ```bash
-autossos path/to/directory -skip_recalibration
+(autossos) $ autossos path/to/directory -skip_recalibration
 ```
 Using both arguments at the same times also works.
 
 -	If you want to check again the calibrations, you can use:
 ```bash
-autossos -check
-autossos -–check_calibrations
+(autossos) $ autossos -check
+(autossos) $ autossos -–check_calibrations
 ```
 -	In case you want to run the pipeline from the ssos execution until the end use this from the main directory:
 ```bash
-autossos -SSOS
+(autossos) $ autossos -SSOS
 ```
 -	If you want to generate a plot of a single linear regression with sigma clipping:
 ```bash
-autossos -plot_sc [number_full] [catalogue] [sigma] [min_mag] [max_mag] [max_magerr]
-autossos –-plot_sigmaclipping [number_full] [catalogue] [sigma] [min_mag] [max_mag] [max_magerr]
+(autossos) $ autossos -plot_sc [number_full] [catalogue] [sigma] [min_mag] [max_mag] [max_magerr]
+(autossos) $ autossos –-plot_sigmaclipping [number_full] [catalogue] [sigma] [min_mag] [max_mag] [max_magerr]
 ```
 For example, using the catalogue 50 from the full_2.cat, with 2.5 sigma, lower magnitude 12, higher magnitude 17 and maximum error 0.01:
 ```bash
-autossos -plot_sc 2 50 2.5 12 17 0.01
+(autossos) $ autossos -plot_sc 2 50 2.5 12 17 0.01
 ```
 -	If you want to get the output again with different values for sigma clipping:
 ```bash
-autossos -re_sc [sigma] [min_mag] [max_mag] [max_magerr] [R2]
-autossos --redo_sigmaclipping [sigma] [min_mag] [max_mag] [max_magerr] [R2]
+(autossos) $ autossos -re_sc [sigma] [min_mag] [max_mag] [max_magerr] [R2]
+(autossos) $ autossos --redo_sigmaclipping [sigma] [min_mag] [max_mag] [max_magerr] [R2]
 ```
 
 -	To obtain periods you can use:
 ```bash
-autossos -period [file] [name] [iterations]
+(autossos) $ autossos -period [file] [name] [iterations]
 ```
 where file is the output file named “validcalib_[…].csv” and name is the name provided by SkyBoT or the one assigned in the column SKYBOT_NAME.
 
 For example, to find periods of the asteroid Polyxo using the output “validcalib_[…].csv” and with 2 iterations:
 ```bash
-autossos -period ./SSOS/cats/validcalib_[…].csv Polyxo 2
+(autossos) $ autossos -period ./SSOS/cats/validcalib_[…].csv Polyxo 2
 ```
 This will create a file, Polyxo_period.txt in this case, in the directory where this command was executed. This file contains the best period of each iteration and its false alarm probability.
