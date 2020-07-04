@@ -66,7 +66,7 @@ def duplicates():
                         
                 break
             elif choice in no:
-                print('Stopping pipeline...')
+                print('Stopping the pipeline...')
                 sys.exit()
             else:
                sys.stdout.write("Please respond with 'yes' or 'no.")
