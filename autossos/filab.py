@@ -219,7 +219,7 @@ def check():
         
         outliers[n] = out
         notsolved[n] = notsol
-        medianseps[n] = 'Median of seps: ' + str(fl['medians'][0].get_ydata()[0]) + ' | Q1: ' + str(fl['whiskers'][0].get_ydata()[0]) + ' | Q3: ' + str(fl['whiskers'][1].get_ydata()[0])
+        medianseps[n] = 'Median_of_seps: ' + str(fl['medians'][0].get_ydata()[0]) + ' | Q1: ' + str(fl['whiskers'][0].get_ydata()[0]) + ' | Q3: ' + str(fl['whiskers'][1].get_ydata()[0])
     
     if any(notsolved.values()):
         print("\n Astrometry couldn't find astrometric solution for:")
@@ -235,11 +235,11 @@ def check():
         OL = pd.DataFrame(outliers.items(), columns=['Night', 'Images'])
         OL.to_csv(os.path.join(os.getcwd(), "list_outliers.csv"), index=False, header=True)
         pprint(outliers, width=1)
-        
-        pprint(medianseps, width=1)
     else:
         print(" - There are no outliers.")
-        
+    
+    pprint(medianseps, width=1)
+    
     return [outliers, notsolved, medianseps]
 
 
