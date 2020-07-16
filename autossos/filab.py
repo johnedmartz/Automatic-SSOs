@@ -263,7 +263,7 @@ def recalib(outliers, medianseps, RECALIB):
             out = [item.replace('science-imaging_','').replace('_red','') +'.fits' for sublist in list(outliers.values()) for item in sublist]
             
             for o in tqdm(out, desc='\n Recalibrating'):
-                cmd = "filabres -rs science-imaging --filename " + o + " --force -ng"
+                cmd = "filabres -rs science-imaging --filename " + o.split()[1] + " --force -ng"
                 sys_exec(cmd)
             
             outliers, *_, medianseps = check()
