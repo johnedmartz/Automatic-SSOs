@@ -20,6 +20,14 @@ from pprint import pprint
 from distutils.util import strtobool
 
 
+def sys_exec(command):
+    test = os.system(command)
+    
+    # Stop pipeline if finished with any error
+    if test != 0:
+        sys.exit()
+
+        
 def duplicates():
     
     ''' Find if there is any duplicated file inside nights folders '''
@@ -93,7 +101,7 @@ def reduction(flipstat, instrument):
         # Change .fts to .fits
         if any([True for i in os.listdir(os.path.join(raw_dir, n)) if i.endswith('.fts')]):
             cmd = "for f in " + os.path.join(raw_dir,n,'*.fts') + "; do mv $f ${f%.*}.fits; done"
-            os.system(cmd)
+            sys_exec(cmd)
         
         masterbias = [f for f in os.listdir(os.path.join(raw_dir, n)) if 'bias' in f.lower() and not f.endswith('r.fits')]
         masterflat = [f for f in os.listdir(os.path.join(raw_dir, n)) if 'flat' in f.lower() and not f.endswith('r.fits')]
@@ -105,10 +113,10 @@ def reduction(flipstat, instrument):
         if (flipstat):
             if not os.path.isfile(masterbias[0].replace('.fits', 'r.fits')):
                 cmd_bias_flip = 'filabres-rotate_flipstat ' + os.path.join(raw_dir, n, masterbias[0])
-                os.system(cmd_bias_flip)
+                sys_exec(cmd_bias_flip)
             if not os.path.isfile(masterflat[0].replace('.fits', 'r.fits')):
                 cmd_flat_flip = 'filabres-rotate_flipstat ' + os.path.join(raw_dir, n, masterflat[0])
-                os.system(cmd_flat_flip)
+                sys_exec(cmd_flat_flip)
     
     
     # Remove old *.yaml
@@ -116,7 +124,7 @@ def reduction(flipstat, instrument):
     
     # Filabres setup
     cmd_1 = "filabres --setup " + instrument + " "+ raw_folder
-    os.system(cmd_1)
+    sys_exec(cmd_1)
     
     # Configurable files for filabres 
     setup_filabres = os.path.join(os.getcwd(), 'setup_filabres.yaml')
@@ -132,11 +140,11 @@ def reduction(flipstat, instrument):
     
     # Filabres initialize
     cmd_init = "filabres -rs initialize -v"
-    os.system(cmd_init)
+    sys_exec(cmd_init)
 
     # Filabres BIAS and FLAT reduction
-    os.system("filabres -rs bias -v")
-    os.system("filabres -rs flat-imaging -v")
+    sys_exec("filabres -rs bias -v")
+    sys_exec("filabres -rs flat-imaging -v")
     
     # Retry if Filabres runs out of memory
     retry = 35072
@@ -256,10 +264,7 @@ def recalib(outliers, medianseps, RECALIB):
             
             for o in tqdm(out, desc='\n Recalibrating'):
                 cmd = "filabres -rs science-imaging --filename " + o + " --force -ng"
-                test = os.system(cmd)
-                    
-                if test != 0:
-                    sys.exit()
+                sys_exec(cmd)
             
             outliers, *_, medianseps = check()
     
@@ -361,4 +366,4 @@ def fil2ssos(outliers):
     
     for i in tqdm(imgs_dir, desc = 'Copying images'):
         cmd = "cp " + i + " " + cp_path
-        os.system(cmd)
+        sys_exec(cmd)
