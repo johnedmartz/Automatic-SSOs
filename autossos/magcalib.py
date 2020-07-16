@@ -24,6 +24,14 @@ from astropy.io import fits
 from photutils import make_source_mask
 from astropy.stats import sigma_clipped_stats
 
+
+def sys_exec(command):
+    test = os.system(command)
+    
+    # Stop pipeline if finished with any error
+    if test != 0:
+        sys.exit()
+
 def imgstats():
     
     ''' Get statistics for the backgrounds of the images to remove the ones with bad photometry '''
@@ -101,11 +109,7 @@ def exec_ssos():
         shutil.move(os.path.join(os.getcwd(), 'SSOS', 'cats', o), os.path.join(os.getcwd(), 'SSOS', 'cats', 'old', o))
     
     cmd = "(cd " + os.path.join(os.getcwd(), 'SSOS') + " && exec ssos .)"
-    test = os.system(cmd)
-    
-    # Stop pipeline if SSOS finished with any error
-    if test != 0:
-        sys.exit()
+    sys_exec(cmd)
     
     # SSOS inspection    
     inpt = {'yes','y', 'ye', ''}
@@ -113,7 +117,7 @@ def exec_ssos():
         choice = input('Inspection of the candidates. \n - LEFT ARROW: Artifact \n - UP ARROW: Unknown/unclear \n - RIGHT ARROW: Asteroid \n Press <ENTER> to continue. \n').lower()
         if choice in inpt:
             cmd = "ssos --inspect " + os.path.join(os.getcwd(),'SSOS')
-            os.system(cmd)
+            sys_exec(cmd)
             break
 
 def matchcats():
