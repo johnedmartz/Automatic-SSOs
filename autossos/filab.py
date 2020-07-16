@@ -222,7 +222,8 @@ def check():
         fl_data = [i.get_data() for i in fl['fliers']]
 
         for i in [float("%.50f" % elem) for elem in fl_data[0][1]]:
-            out.append(str(i) + ' '+ str(sep_aux[0][list(sep_aux[1]).index(i)]))
+            if i > fl['medians'][0].get_ydata()[0]:
+                out.append(str(i) + ' '+ str(sep_aux[0][list(sep_aux[1]).index(i)]))
         
         
         outliers[n] = out
