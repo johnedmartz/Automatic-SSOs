@@ -142,7 +142,7 @@ def main():
     for n in bad_nights:
         if n in outliers.keys() and n in notsolved.keys():
             ignored[n] = outliers[n] + notsolved[n]
-        elif n not in d1.keys():
+        elif n not in outliers.keys():
             ignored[n] = notsolved[n]
     
     print("Copying the final images to SSOS folder...")
