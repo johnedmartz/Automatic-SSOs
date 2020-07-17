@@ -348,7 +348,7 @@ def fil2ssos(outliers):
     
     ''' Copy all calibrated images to SSOS folder except for the ones marked as outliers '''
     
-    out = [item +'.fits' for sublist in list(outliers.values()) for item in sublist]
+    out = [item.split(' ')[-1] +'.fits' for sublist in list(outliers.values()) for item in sublist]
     science_path = os.path.join(os.getcwd(), 'science-imaging')
     nights = [n for n in sorted(os.listdir(science_path)) if os.path.isdir(os.path.join(science_path, n))]
     
