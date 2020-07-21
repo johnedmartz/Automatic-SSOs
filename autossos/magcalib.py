@@ -403,7 +403,13 @@ def mag_calib():
     ssos_data['MAG_CALIB'] = ssos_mag_cal
     ssos_data['MAG_CALIB_ERR'] = ssos_mag_cal_err
     ssos_data['R2'] = ssos_R2
-    
+   
+    # Creates a column with True for outliers
+    ssos_data['PHOT_OUTLIER'] = False
+    stats_data = pd.read_csv(os.path.join(ssos_path, 'Stats.dat'))
+    bad_phot = list(stats_data['Name'][stats_data['Outlier'] == True])
+    for bad in bad_phot:
+        ssos_data['PHOT_OUTLIER'][ssos_data['IMAGE_FILENAME'] == bad] = True
     
     # Assign "names" to possible asteroides without name or unknowns
     ssos_data_aux = ssos_data[ssos_data['MATCHED'] == False]
@@ -522,7 +528,7 @@ def getperiod(file, name, iterations):
     data_all = pd.read_csv(file_dir)
     data_ast = data_all[data_all['SKYBOT_NAME'] == name]
     
-    time = list(data_ast['EPOCH'])
+    time = list(data_ast['EPOCH']*365*24)
     mag = list(data_ast['MAG_CALIB'])
     
     lines = []
@@ -540,7 +546,7 @@ def getperiod(file, name, iterations):
         period_error_res = periodograma.best['e_P']
         fap_res = periodograma.FAP()
         
-        line1 = 'Best period: {0} +/- {1} days'.format(best_period_res*365,period_error_res*365)
+        line1 = 'Best period: {0} +/- {1} days'.format(best_period_res,period_error_res)
         line2 = 'False alarm probability: {0}%'.format(fap_res*100)
        
         lines.extend(['\n Iteration:', str(i),'\n', line1, '\n', line2])
