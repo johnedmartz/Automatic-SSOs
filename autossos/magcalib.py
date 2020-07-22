@@ -528,7 +528,7 @@ def getperiod(file, name, iterations):
     data_all = pd.read_csv(file_dir)
     data_ast = data_all[data_all['SKYBOT_NAME'] == name]
     
-    time = list(data_ast['EPOCH']*365*24)
+    time = list(data_ast['EPOCH']*365.25*24)
     mag = list(data_ast['MAG_CALIB'])
     
     lines = []
